@@ -24,17 +24,17 @@ frontend http-in
     default_backend servers
 
 backend servers
-    server server1 127.0.0.1:8000 maxconn 32
-    server server2 127.0.0.1:8080 maxconn 32
+    server tomcat1 192.168.1.52:8888 maxconn 32
+    server tomcat2 192.168.1.53:8888 maxconn 32
 ```
 
 ### keepalived
  Keepalived is configured by environment variables as below
 
 - `INTERFACE`:           interface to set virtual IP
-- `VIRTUAL_IP`:          VIP, by default 192.168.254.254/32
-- `VIRTUAL_MASK`:        VIP Mask
-- `STATE`:
+- `VIRTUAL_IP`:          vip
+- `VIRTUAL_MASK`:        vip mask
+- `STATE`:               master or backup
 - `VIRTUAL_ROUTER_ID`:   must be the same in all nodes
 - `PRIORITY`:            101 on master, 100 on backups
 
