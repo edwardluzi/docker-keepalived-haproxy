@@ -1,15 +1,40 @@
 # docker-keepalived-haproxy
-
---
+---
+## Purpose
 Keepalived and HAProxy are wildly used to setup a High-Availability TCP/HTTP Load Balancer in an active/passive configuration. HAProxy had provided an office docker image release in docker hub, and there are also a lot of keepalived docker images contribued by talant developers in docker hub, but it is not easy to find out a docker image that contained both HAProxy and keepalived.
 
 
-## Environment Variables
+## Configuration
+
+### HAProxy
+HAProxy is configured by a configuration file, haproxy.cfg, please map the folder that contains haproxy.cfg to docker container volume /usr/local/etc/haproxy, a simple sample haproxy.cfg is listed below:
+```
+global
+    daemon
+    maxconn 256
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend http-in
+    bind *:80
+    default_backend servers
+
+backend servers
+    server server1 127.0.0.1:8000 maxconn 32
+    server server2 127.0.0.1:8080 maxconn 32
+```
+
+### keepalived
+ Keepalived is configured by environment variables as below
 
 - `INTERFACE`:           interface to set virtual IP
 - `VIRTUAL_IP`:          VIP, by default 192.168.254.254/32
-- `VIRTUAL_MASK':        VIP Mask
-- `STATE`
+- `VIRTUAL_MASK`:        VIP Mask
+- `STATE`:
 - `VIRTUAL_ROUTER_ID`:   must be the same in all nodes
 - `PRIORITY`:            101 on master, 100 on backups
 
@@ -17,7 +42,7 @@ Keepalived and HAProxy are wildly used to setup a High-Availability TCP/HTTP Loa
 ## Usage with Docker Compose
 
 docker-compose.yaml
-
+```
 version: '3'
 services:
 
@@ -39,24 +64,4 @@ services:
         restart: always
         network_mode: host
         privileged: true
-
-
-haproxy.cfg
-
-global
-    daemon
-    maxconn 256
-
-defaults
-    mode http
-    timeout connect 5000ms
-    timeout client 50000ms
-    timeout server 50000ms
-
-frontend http-in
-    bind *:80
-    default_backend servers
-
-backend servers
-    server server1 127.0.0.1:8000 maxconn 32
-    server server2 127.0.0.1:8080 maxconn 32
+```
