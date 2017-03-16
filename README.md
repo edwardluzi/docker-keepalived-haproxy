@@ -1,0 +1,1 @@
+# docker-keepalived-haproxy
