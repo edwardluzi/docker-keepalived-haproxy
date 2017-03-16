@@ -4,6 +4,6 @@ set -e
 # exec haproxy entry poing script
 exec /docker-entrypoint.sh "$@" &
 
-# exec keepalived entry point sdcript
+# start keepalived
 exec /keepalived/start-keepalived.sh
 
