@@ -47,7 +47,7 @@ version: '3'
 services:
 
     keepalived_haproxy1:
-        image: kh:0.01
+        image: goldenroute/keepalived-haproxy:latest
         volumes:
             - /haproxy:/usr/local/etc/haproxy:ro
             - /keepalived:/keepalived1
