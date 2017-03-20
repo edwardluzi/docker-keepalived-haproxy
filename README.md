@@ -46,11 +46,11 @@ docker-compose.yaml
 version: '3'
 services:
 
-    keepalived_haproxy1:
+    keepalived_haproxy:
         image: goldenroute/keepalived-haproxy:latest
         volumes:
             - /haproxy:/usr/local/etc/haproxy:ro
-            - /keepalived:/keepalived1
+            - /keepalived:/keepalived
             - /var/run/docker.sock:/var/run/docker.sock
             - /root/.docker:/root/.docker
         environment:
